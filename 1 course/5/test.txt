@@ -1,0 +1,3 @@
+remove_key 345
+show
+min_by_coordinates
