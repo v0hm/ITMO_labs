@@ -1,9 +1,6 @@
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.Socket;
 import java.net.ServerSocket;
-
 public class Server {
     public static void main(String[] args) throws InterruptedException {
         boolean client_is_connect = false;
@@ -13,13 +10,15 @@ public class Server {
             Socket client = server.accept();
             client_is_connect = true;
             System.out.println("Connection accepted");
-            InputStream input = client.getInputStream();
-            input.read(b);
-            System.out.println(b);
-            OutputStream output = client.getOutputStream();
-            output.write(b);
+            Package test = new Package();
+            ObjectInputStream input = new ObjectInputStream(client.getInputStream());
+            test = (Package) input.readObject();
+            System.out.println(test.getCommand());
+            test.setCommand("GG_WP_too_ez");
+            ObjectOutputStream output = new ObjectOutputStream(client.getOutputStream());
+            output.writeObject(test);
         }
-        catch (IOException e) {
+        catch (IOException | ClassNotFoundException e) {
             System.out.println("3");
         }
     }
