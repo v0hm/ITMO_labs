@@ -1,54 +1,53 @@
+import com.google.gson.Gson;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
+import java.io.OutputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.ServerSocket;
 import java.net.UnknownHostException;
+import java.util.Arrays;
 import java.util.Scanner;
+
 
 public class Client{
 
-    static int serverPort = 1111;
     static Socket socket;
-    static Scanner scanner;
     static ObjectInputStream input;
     static ObjectOutputStream output;
+    static Scanner scanner;
 
-    static {
-        try {
-            socket = new Socket("localhost", serverPort);
-            System.out.println("connected to server");
-            scanner = new Scanner(System.in);
-            System.out.println("scanner is up");
-            input = new ObjectInputStream(socket.getInputStream());
-            System.out.println("input is up");
-            output = new ObjectOutputStream(socket.getOutputStream());
-            System.out.println("client initialized");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    static Gson gson = new Gson();
 
+    static boolean client_is_connect = false;
     static boolean in_work = true;
-    static boolean is_File = false;
+    static boolean isFile = false;
 
     public static void main(String[] args) throws IOException {
 
+        int serverPort = 1111;
+
         try{
+            socket = new Socket("localhost", serverPort);
+            System.out.println("connected to server");
+            output = new ObjectOutputStream(socket.getOutputStream());
+            input = new ObjectInputStream(socket.getInputStream());
+            scanner = new Scanner(System.in);
+            System.out.println("Client initialized");
             while (in_work){
                 read_from_cmd();
-                String message_from_server = receive();
-                if(message_from_server != "NULL"){
-                    System.out.println(message_from_server);
-                }
+                System.out.println(receive());
             }
         }
         catch (UnknownHostException e) {
-            System.out.println("1");
+            System.out.println("1");;
         } catch (IOException e) {
-            System.out.println("2");
+            System.out.println("2");;
         } catch (ClassNotFoundException e) {
-            System.out.println("3");
-        } finally {
+            e.printStackTrace();
+        }
+        finally {
             socket.close();
             scanner.close();
             input.close();
@@ -57,10 +56,10 @@ public class Client{
     }
     //TODO Чтение команд из консоли.
     public static void read_from_cmd() throws IOException {
+        Scanner scanner = new Scanner(System.in);
         String command;
         if (scanner.hasNext()){
             command = scanner.next();
-            System.out.println(command);
             command_validation(command);
         }
     }
@@ -74,7 +73,6 @@ public class Client{
             }
             case "info":{
                 command_object.setCommand(command);
-                System.out.println(command_object.getCommand());
                 send(command_object);
                 break;
             }
@@ -87,22 +85,15 @@ public class Client{
     //TODO Сериализация введённой команды и её аргументов
 
     //TODO Отправка полученной команды и её аргументов на сервер
-    public static void send(Package object_to_send) throws IOException {
-        System.out.println("12");
-        output.writeObject(object_to_send);
-        System.out.println("13");
-        output.close();
-        System.out.println("14");
+    public static void send(Package package_to_send) throws IOException {
+        output.writeObject(package_to_send);
+        System.out.println("Package sended");
     }
     //TODO Обработка ответа от сервера (вывод результата исполнения команды в консоль).
     public static String receive() throws IOException, ClassNotFoundException {
-        if (input.available()>0){
-            Package receive_message;
-            receive_message = (Package) input.readObject();
-            return receive_message.getMessage();
-        }
-        else{
-            return "NULL";
-        }
+        Package receive_message;
+        receive_message = (Package) input.readObject();
+        System.out.println("Package received");
+        return receive_message.getMessage();
     }
 }
