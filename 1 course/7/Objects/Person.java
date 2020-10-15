@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Person {
+public class Person implements Serializable {
     private String name; //Поле не может быть null, Строка не может быть пустой
     private Long height; //Поле не может быть null, Значение поля должно быть больше 0
     private Integer weight; //Поле не может быть null, Значение поля должно быть больше 0

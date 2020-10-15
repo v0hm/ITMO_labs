@@ -1,15 +1,13 @@
 import java.io.Serializable;
-import java.util.Arrays;
 
 public class Package implements Serializable{
     private String command;
     private String message;
     private Long id;
-    private int key;
-    private Difficulty difficulty;
+    private Long key;
+    private String difficulty;
     private LabWork element;
 
-    @Override
     public String toString() {
         return "Package{" +
                 "command='" + command + '\'' +
@@ -27,10 +25,10 @@ public class Package implements Serializable{
     public void setId(Long id) {
         this.id = id;
     }
-    public void setKey(int key) {
+    public void setKey(Long key) {
         this.key = key;
     }
-    public void setDifficulty(Difficulty difficulty) {
+    public void setDifficulty(String difficulty) {
         this.difficulty = difficulty;
     }
     public void setElement(LabWork element) {
@@ -45,10 +43,10 @@ public class Package implements Serializable{
     public Long getId() {
         return id;
     }
-    public int getKey() {
+    public Long getKey() {
         return key;
     }
-    public Difficulty getDifficulty() {
+    public String getDifficulty() {
         return difficulty;
     }
     public LabWork getElement() {
