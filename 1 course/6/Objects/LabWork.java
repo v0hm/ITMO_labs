@@ -1,7 +1,6 @@
-import java.io.Serializable;
 import java.time.LocalDate;
 
-public class LabWork extends Client implements Comparable<LabWork>, Serializable {
+public class LabWork implements Comparable<LabWork> {
     private Long id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     private String name; //Поле не может быть null, Строка не может быть пустой
     private Coordinates coordinates; //Поле не может быть null

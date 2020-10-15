@@ -1,3 +1,5 @@
+import com.google.gson.Gson;
+
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -12,6 +14,7 @@ public class Client{
     static ObjectOutputStream output;
     static Scanner scanner;
 
+    static Gson gson = new Gson();
     static InputStream defInput = System.in;
 
     static boolean client_is_connect = false;
@@ -91,7 +94,7 @@ public class Client{
                     try{
                         String element;
                         element = scanner.nextLine();
-                       //command_object.setElement(gson.fromJson(element, LabWork.class));
+                        command_object.setElement(gson.fromJson(element, LabWork.class));
                         send(command_object);
                         System.out.println(receive());
                     }
@@ -157,7 +160,7 @@ public class Client{
                 try{
                     String element;
                     element = scanner.nextLine();
-                    //command_object.setElement(gson.fromJson(element, LabWork.class));
+                    command_object.setElement(gson.fromJson(element, LabWork.class));
                     send(command_object);
                     System.out.println(receive());
                 }
@@ -185,7 +188,7 @@ public class Client{
                     command_object.setCommand(command);
                     String autor = scanner.nextLine();
                     LabWork laba_temp = new LabWork();
-                    //laba_temp.setAuthor(gson.fromJson(autor, Person.class));
+                    laba_temp.setAuthor(gson.fromJson(autor, Person.class));
                     command_object.setElement(laba_temp);
                 }
                 catch (java.lang.NullPointerException e) {

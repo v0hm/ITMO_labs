@@ -1,6 +1,4 @@
-import java.io.Serializable;
-
-public class Coordinates implements Comparable<Coordinates> , Serializable {
+public class Coordinates implements Comparable<Coordinates>{
     private Double x; //Значение поля должно быть больше -628
     private Long y; //Поле не может быть null
 
